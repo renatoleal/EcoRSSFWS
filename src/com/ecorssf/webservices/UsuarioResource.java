@@ -59,50 +59,6 @@ public class UsuarioResource {
 	}
 	
 	@GET
-	@Path("/get/{idUsuario}")
-	@Produces(MediaType.APPLICATION_JSON)
-	public String getUsuario(@PathParam("idUsuario") int id) {
-		String retorno = null;
-		try {
-			SessionFactory sf = HibernateUtil.getSessionFactory();
-			UsuarioDAO uDAO = new UsuarioDAO(sf);
-			Usuario u = uDAO.getById(id);
-			
-			ObjectMapper mapper = new ObjectMapper();
-			retorno = mapper.writeValueAsString(u);
-		} catch (JsonGenerationException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (JsonMappingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} finally {
-			return retorno;
-		}
-	}
-	
-	@GET
-	@Path("/save/{id}&{nome}&{sobrenome}&{login}&{senha}&{email}&{ativo}")
-	@Produces(MediaType.APPLICATION_JSON)
-	public void saveUsuario(@PathParam("id") String id, @PathParam("nome") String nome,
-			@PathParam("sobrenome") String sobrenome, @PathParam("login") String login,
-			@PathParam("senha") String senha, @PathParam("email") String email,
-			@PathParam("ativo") String ativo) {
-
-			boolean b = true;
-			if (Integer.valueOf(ativo) == 0)
-				b = false;
-			
-			Usuario u = new Usuario(Integer.valueOf(id), nome, sobrenome, email, login, senha, b);
-			SessionFactory sf = HibernateUtil.getSessionFactory();
-			UsuarioDAO uDAO = new UsuarioDAO(sf);
-			uDAO.save(u);
-	}
-	
-	@GET
 	@Path("/getLogin/{login}&{senha}")
 	
 	@Produces(MediaType.APPLICATION_JSON)
