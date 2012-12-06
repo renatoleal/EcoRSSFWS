@@ -41,7 +41,6 @@ public class UsuarioResource {
 			SessionFactory sf = HibernateUtil.getSessionFactory();
 			UsuarioDAO uDAO = new UsuarioDAO(sf);
 			List<Usuario> u = uDAO.listUsuarios();
-			System.out.println(u.size());
 			ObjectMapper mapper = new ObjectMapper();
 			retorno = mapper.writeValueAsString(u);
 		} catch (JsonGenerationException e) {
@@ -88,6 +87,72 @@ public class UsuarioResource {
 		}
 	}
 
+	@GET
+	@Path("/get/byLogin/{login}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public String getNamebyLogin(@PathParam("login") String login) {
+		String retorno = null;
+		try {
+			SessionFactory sf = HibernateUtil.getSessionFactory();
+			UsuarioDAO uDAO = new UsuarioDAO(sf);
+			Usuario u = uDAO.getByLogin(login);
+			
+			ObjectMapper mapper = new ObjectMapper();
+			retorno = u.getNome();
 
+		} finally {
+			return retorno;
+		}
+	}
+	
+	@GET
+	@Path("/get/{idUsuario}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public String getUsuario(@PathParam("idUsuario") int id) {
+		String retorno = null;
+		try {
+			SessionFactory sf = HibernateUtil.getSessionFactory();
+			UsuarioDAO uDAO = new UsuarioDAO(sf);
+			Usuario u = uDAO.getById(id);
+			
+			ObjectMapper mapper = new ObjectMapper();
+			retorno = mapper.writeValueAsString(u);
+		} catch (JsonGenerationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (JsonMappingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			return retorno;
+		}
+	}
+	
+	@GET
+	@Path("/save/{id}&{nome}&{sobrenome}&{login}&{senha}&{email}&{ativo}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public String saveUsuario(@PathParam("id") String id, @PathParam("nome") String nome,
+			@PathParam("sobrenome") String sobrenome, @PathParam("login") String login,
+			@PathParam("senha") String senha, @PathParam("email") String email,
+			@PathParam("ativo") String ativo) {
+		
+			nome = nome.replace("\"", "");
+			sobrenome = sobrenome.replace("\"", "");
+			
+			
+			boolean b = true;
+			if (ativo.equals("Desativado"))
+				b = false;
+			
+			Usuario u = new Usuario(Integer.valueOf(id), nome, sobrenome, email, login, senha, b);
+			SessionFactory sf = HibernateUtil.getSessionFactory();
+			UsuarioDAO uDAO = new UsuarioDAO(sf);
+			uDAO.save(u);
+			
+			return "Ok";
+	}
 
 }

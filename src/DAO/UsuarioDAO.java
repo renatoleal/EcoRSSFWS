@@ -52,7 +52,29 @@ public class UsuarioDAO {
 		return resultsInt;
 	}
 		
-	
+	public Usuario getByLogin(String login) {
+		Session session = sessionFactory.openSession();
+		Transaction tx = null;
+		Object o = null;
+		try {
+			tx = session.beginTransaction();
+
+			Criteria criteria = session.createCriteria(Usuario.class);
+			criteria.add(Restrictions.eq("login", login));
+
+			List results = criteria.list();
+			if(!results.isEmpty())
+				o = results.get(0);
+			tx.commit();
+		}
+		catch (Exception e) {
+			if (tx!=null) tx.rollback();
+			e.printStackTrace(); 
+		}finally {
+			session.close();
+		}
+		return (Usuario) o;
+	}
 
 	public List<Usuario> listUsuarios() {
 		Session session = sessionFactory.openSession();
