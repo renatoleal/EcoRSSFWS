@@ -6,7 +6,8 @@
     <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
     <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/ecorssf_db</property>
     <property name="hibernate.connection.username">root</property>
-    <mapping resource="Entities/Dados.hbm.xml"/>
+ 
+<property name="hibernate.connection.password">root</property>   <mapping resource="Entities/Dados.hbm.xml"/>
     <mapping resource="Entities/Sensores.hbm.xml"/>
     <mapping resource="Entities/Usuario.hbm.xml"/>
   </session-factory>

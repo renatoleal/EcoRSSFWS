@@ -1,5 +1,5 @@
 package Entities;
-// Generated Dec 7, 2012 2:26:39 PM by Hibernate Tools 3.2.1.GA
+// Generated Nov 21, 2012 10:42:37 PM by Hibernate Tools 3.2.1.GA
 
 
 
@@ -14,7 +14,6 @@ public class Sensores  implements java.io.Serializable {
      private Integer maxValue;
      private Integer minValue;
      private String info;
-     private Long lastWarning;
 
     public Sensores() {
     }
@@ -24,13 +23,12 @@ public class Sensores  implements java.io.Serializable {
         this.id = id;
         this.status = status;
     }
-    public Sensores(int id, boolean status, Integer maxValue, Integer minValue, String info, Long lastWarning) {
+    public Sensores(int id, boolean status, Integer maxValue, Integer minValue, String info) {
        this.id = id;
        this.status = status;
        this.maxValue = maxValue;
        this.minValue = minValue;
        this.info = info;
-       this.lastWarning = lastWarning;
     }
    
     public int getId() {
@@ -67,13 +65,6 @@ public class Sensores  implements java.io.Serializable {
     
     public void setInfo(String info) {
         this.info = info;
-    }
-    public Long getLastWarning() {
-        return this.lastWarning;
-    }
-    
-    public void setLastWarning(Long lastWarning) {
-        this.lastWarning = lastWarning;
     }
 
 

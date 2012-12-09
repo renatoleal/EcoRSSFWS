@@ -81,4 +81,25 @@ public class SensoresResource {
 			return retorno;
 		}
 	}
+	
+	@GET
+	@Path("/save/{id}&{minValue}&{maxValue}&{info}&{status}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public String saveUsuario(@PathParam("id") String id, @PathParam("minValue") String minValue,
+			@PathParam("maxValue") String maxValue, @PathParam("info") String info,
+			@PathParam("status") String status) {
+		
+			
+			boolean b = true;
+			if (status.equals("Desativado"))
+				b = false;
+			
+			Sensores u = new Sensores(Integer.parseInt(id),b, Integer.parseInt(minValue),Integer.parseInt(maxValue),info);
+			
+			SessionFactory sf = HibernateUtil.getSessionFactory();
+			SensoresDAO sDAO = new SensoresDAO(sf);
+			sDAO.save(u);
+			
+			return "Ok";
+	}
 }
