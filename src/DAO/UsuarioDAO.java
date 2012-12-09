@@ -95,6 +95,26 @@ public class UsuarioDAO {
 		}
 		return results;
 	}
+	
+	public List<Usuario> listAdmins() {
+		Session session = sessionFactory.openSession();
+		Transaction tx = null;
+		List results = null;
+		try {
+			tx = session.beginTransaction();
+			Criteria criteria = session.createCriteria(Usuario.class);
+			criteria.add(Restrictions.eq("admin", true));
+			results = criteria.list();
+			tx.commit();
+		}
+		catch (Exception e) {
+			if (tx!=null) tx.rollback();
+			e.printStackTrace(); 
+		}finally {
+			session.close();
+		}
+		return results;
+	}
 
 	public Usuario getById(int id) {
 		Session session = sessionFactory.openSession();

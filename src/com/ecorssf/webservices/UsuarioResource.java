@@ -91,9 +91,7 @@ public class UsuarioResource {
 		try {
 			SessionFactory sf = HibernateUtil.getSessionFactory();
 			UsuarioDAO uDAO = new UsuarioDAO(sf);
-			
-			
-			
+
 			int u = uDAO.getLogin(login, senha);
 			
 			ObjectMapper mapper = new ObjectMapper();
@@ -169,11 +167,6 @@ public class UsuarioResource {
 			SessionFactory sf = HibernateUtil.getSessionFactory();
 			UsuarioDAO uDAO = new UsuarioDAO(sf);
 			
-			
-			if(id.equals("novoID")){
-				id = String.valueOf(uDAO.getLastId() + 1);
-			}
-			
 			boolean ativoB = true;
 			if (ativo.equals("Desativado"))
 				ativoB = false;
@@ -182,9 +175,20 @@ public class UsuarioResource {
 			if (admin.equals("false"))
 				adminB = false;
 			
-			Usuario u = new Usuario(Integer.valueOf(id), nome, sobrenome, email, login, senha, ativoB, adminB);
-			
-			
+			Usuario u = null;
+			if (!id.equals("null") && !id.isEmpty()) {
+				u = uDAO.getById(Integer.parseInt(id));
+				u.setNome(nome);
+				u.setSobrenome(sobrenome);
+				u.setLogin(login);
+				u.setSenha(senha);
+				u.setEmail(email);
+				u.setAtivo(ativoB);
+				u.setAdmin(adminB);
+			} else {
+				u = new Usuario(nome, sobrenome, email, login, senha, ativoB, adminB);
+			}
+
 			uDAO.save(u);
 			
 			return "Ok";

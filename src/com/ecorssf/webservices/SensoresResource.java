@@ -85,20 +85,39 @@ public class SensoresResource {
 	@GET
 	@Path("/save/{id}&{minValue}&{maxValue}&{info}&{status}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public String saveUsuario(@PathParam("id") String id, @PathParam("minValue") String minValue,
+	public String saveSensor(@PathParam("id") String id, @PathParam("minValue") String minValue,
 			@PathParam("maxValue") String maxValue, @PathParam("info") String info,
 			@PathParam("status") String status) {
 		
+			Integer minV = null;
+			Integer maxV = null;
+			
+			if (!minValue.equals("null") && !minValue.isEmpty()) {
+				minV = Integer.parseInt(minValue);
+			}
+			if (!maxValue.equals("null") && !maxValue.isEmpty()) {
+				maxV = Integer.parseInt(maxValue);
+			}
+			
+			String inf = null;
+			if (!info.equals("null") && !info.isEmpty()) {
+				inf = info;
+			}
 			
 			boolean b = true;
 			if (status.equals("Desativado"))
 				b = false;
 			
-			Sensores u = new Sensores(Integer.parseInt(id),b, Integer.parseInt(minValue),Integer.parseInt(maxValue),info);
-			
+
 			SessionFactory sf = HibernateUtil.getSessionFactory();
 			SensoresDAO sDAO = new SensoresDAO(sf);
-			sDAO.save(u);
+			Sensores s = sDAO.getById(Integer.parseInt(id));
+			s.setMinValue(minV);
+			s.setMaxValue(maxV);
+			s.setInfo(info);
+			s.setStatus(b);
+			
+			sDAO.save(s);
 			
 			return "Ok";
 	}
