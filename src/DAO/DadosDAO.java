@@ -92,6 +92,7 @@ public class DadosDAO {
 			criteria.add(Restrictions.eq("idSensor", id));
 			criteria.add(Restrictions.ge("timeTicks", startDate));
 			criteria.add(Restrictions.le("timeTicks", endDate));
+			criteria.addOrder(Order.asc("timeTicks"));
 			results = criteria.list();
 			tx.commit();
 		} catch (Exception e) {

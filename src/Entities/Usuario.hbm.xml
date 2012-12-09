@@ -26,5 +26,8 @@
         <property name="ativo" type="boolean">
             <column name="ativo" not-null="true" />
         </property>
+                <property name="admin" type="boolean">
+            <column name="admin" not-null="true" />
+        </property>
     </class>
 </hibernate-mapping>

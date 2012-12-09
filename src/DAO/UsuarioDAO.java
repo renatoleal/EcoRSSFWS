@@ -6,6 +6,7 @@ import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 
 import Entities.Dados;
@@ -84,7 +85,6 @@ public class UsuarioDAO {
 			tx = session.beginTransaction();
 			Criteria criteria = session.createCriteria(Usuario.class);
 			results = criteria.list();
-			System.out.println(results.size());
 			tx.commit();
 		}
 		catch (Exception e) {
@@ -119,7 +119,30 @@ public class UsuarioDAO {
 		}
 		return (Usuario) o;
 	}
-
+	public int getLastId() {
+		Session session = sessionFactory.openSession();
+		Transaction tx = null;
+		List results = null;
+		Usuario u = new Usuario();
+		int a = 0;
+		try {
+			tx = session.beginTransaction();
+			Criteria criteria = session.createCriteria(Usuario.class);
+			criteria.addOrder(Order.asc("id"));
+			results = criteria.list();
+			u = (Usuario) results.get(results.size() - 1);
+			tx.commit();
+		}
+		catch (Exception e) {
+			if (tx!=null) tx.rollback();
+			e.printStackTrace(); 
+		}finally {
+			session.close();
+		}
+		return u.getId();
+	}
+	
+	
 	public Usuario save(Usuario entity) {
 		Session session = sessionFactory.openSession();
 		Transaction tx = null;
