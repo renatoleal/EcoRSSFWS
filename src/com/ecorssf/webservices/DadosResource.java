@@ -64,7 +64,7 @@ public class DadosResource {
 	@GET
 	@Path("/range/{idSensor}&{minValue}&{maxValue}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public String getLast(@PathParam("idSensor") int id,
+	public String getRange(@PathParam("idSensor") int id,
 			@PathParam("minValue") String minValue,
 			@PathParam("maxValue") String maxValue) {
 		String retorno = null;

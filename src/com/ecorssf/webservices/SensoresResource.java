@@ -100,6 +100,7 @@ public class SensoresResource {
 			}
 			
 			String inf = null;
+			System.out.println(info);
 			if (!info.equals("null") && !info.isEmpty()) {
 				inf = info;
 			}
@@ -114,7 +115,7 @@ public class SensoresResource {
 			Sensores s = sDAO.getById(Integer.parseInt(id));
 			s.setMinValue(minV);
 			s.setMaxValue(maxV);
-			s.setInfo(info);
+			s.setInfo(inf);
 			s.setStatus(b);
 			
 			sDAO.save(s);
