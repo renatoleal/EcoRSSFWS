@@ -67,9 +67,6 @@ public class UsuarioResource {
 		try {
 			SessionFactory sf = HibernateUtil.getSessionFactory();
 			UsuarioDAO uDAO = new UsuarioDAO(sf);
-			
-			
-			
 			int u = uDAO.getLogin(login, senha);
 			
 			ObjectMapper mapper = new ObjectMapper();
