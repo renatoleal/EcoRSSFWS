@@ -92,10 +92,15 @@ public class UsuarioResource {
 			SessionFactory sf = HibernateUtil.getSessionFactory();
 			UsuarioDAO uDAO = new UsuarioDAO(sf);
 
+			Usuario user = uDAO.getByLogin(login);
+			if(user.isAtivo()){
 			int u = uDAO.getLogin(login, senha);
 			
+			
 			ObjectMapper mapper = new ObjectMapper();
-			retorno = mapper.writeValueAsString(u);
+			retorno = mapper.writeValueAsString(u);}
+			else
+				retorno = "0";
 		} catch (JsonGenerationException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
